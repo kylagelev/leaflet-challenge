@@ -69,6 +69,12 @@ d3.json(url).then(function(response){
     return color
   }
 
+  plates_url = '../data/plates.json'
+  d3.json(plates_url).then(function(plates){
+    console.log(plates)
+
+  })
+
     for (var i = 0; i < coordinates.length; i++) {
 
       // console.log(coordinates[i])
