@@ -69,11 +69,31 @@ d3.json(url).then(function(response){
     return color
   }
 
-  plates_url = './data/plates.json'
-  d3.json(plates_url).then(function(plates){
-    console.log(plates)
+  // var plate_coordinates = []
+  // plates_url = './data/plates.json'
+  // d3.json(plates_url).then(function(plates){
+  //   console.log(plates.features[0].geometry.coordinates[0][0])
 
-  })
+  //   plate = plates.features
+
+  //   for (var i=0; i<plate.length; i++){
+  //       plate_geometry = plate[i].geometry.coordinates
+  //       for (var j=0; j<plate_geometry.length; j++){
+  //         if (plate_geometry[j] !== undefined){
+  //         plate_coordinates.push([plate_geometry[j][1], plate_geometry[j][0]])
+
+  //       }
+  //     }
+  //   }
+  // })
+
+  // console.log(plate_coordinates)
+
+  // faults = L.polyline(plate_coordinates, {
+  //   color: "red",
+  //   opacity: 1
+  // }).addTo(myMap);
+
 
     for (var i = 0; i < coordinates.length; i++) {
 
@@ -108,8 +128,8 @@ d3.json(url).then(function(response){
       };
 
       var overlayMaps = {
-        Earthquakes: circle,
-        // Faults:
+        Earthquakes: circle
+        // Faults: faults
       }
 
 
@@ -133,7 +153,7 @@ d3.json(url).then(function(response){
     return div;
     };
   }
-  L.control.layers(baseMaps).addTo(myMap);
+  L.control.layers(baseMaps, overlayMaps, {collapsed: false}).addTo(myMap);
 
 
 legend.addTo(myMap);
