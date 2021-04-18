@@ -9,7 +9,7 @@ var myMap = L.map("map", {
     tileSize: 512,
     maxZoom: 18,
     zoomOffset: -1,
-    id: "mapbox/streets-v11",
+    id: "mapbox/satellite-streets-v11",
     accessToken: API_KEY
   }).addTo(myMap);
 
@@ -25,10 +25,8 @@ d3.json(url).then(function(response){
     magnitudes = []
     depths = []
     coordinates = []
+    place = []
 
-  // function markerSize(magnitudes) {
-  //   return magnitude / 40;
-  // }
 
     for (var i=0; i<narrowed_response.length; i++){
 
@@ -36,29 +34,52 @@ d3.json(url).then(function(response){
         coordinates.push([narrowed_response[i].geometry.coordinates[1], narrowed_response[i].geometry.coordinates[0]]);
         depths.push(narrowed_response[i].geometry.coordinates[2])
         magnitudes.push(narrowed_response[i].properties.mag)
+        place.push(narrowed_response[i].properties.place)
     }
     }
 
     //checking lengths of lists
     console.log(coordinates.length)
     console.log(depths.length)
-    console.log(magnitudes)
+    console.log(magnitudes.length)
+    console.log(place.length)
+    // console.log(magnitudes)
+    // console.log(place)
+
+  
 
     for (var i = 0; i < coordinates.length; i++) {
+
+      if (depths[i] < 10) {
+        color = 'green'
+      }
+      else if (depths[i] < 30){
+        color = 'lime'
+      }
+      else if (depths[i] < 50){
+        color = 'yellow'
+      }
+      else if (depths[i] < 70){
+        color = 'gold'
+      }
+      else if (depths[i] < 90){
+        color = 'orange'
+      }
+      else {
+        color = 'red'
+      }
+
+
+
+
       // console.log(coordinates[i])
       circle = L.circleMarker(coordinates[i], {
         fillOpacity: 1,
-        color: "purple",
-        fillColor: "purple",
+        color: 'black',
+        fillColor: color,
         radius: 5*magnitudes[i]
-      }).bindPopup("<h1>" + "</h1> <hr> <h3>Population: " + "</h3>").addTo(myMap);
+      }).bindPopup("<h2>" + place[i]+ "</h2> <hr> <h3>Magnitude: " + magnitudes[i] + "</h3>" + "<hr> <h3>Depth: " + depths[i]+"</h3>").addTo(myMap);
 
 
-
-
-    // Define a markerSize function that will give each city a different radius based on its population
-// function markerSize(population) {
-//   return population / 40;
-// }
 }
 })
