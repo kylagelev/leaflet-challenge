@@ -120,9 +120,9 @@ d3.json(url).then(function(response){
         Satellite: satellite
       };
 
-      var overlayMaps = {
-        Earthquakes: circle
-      }
+      // var overlayMaps = {
+      //   Earthquakes: circle
+      // }
 
 
 
@@ -145,7 +145,7 @@ d3.json(url).then(function(response){
     return div;
     };
   }
-  L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+  L.control.layers(baseMaps).addTo(myMap);
 
 
 legend.addTo(myMap);
