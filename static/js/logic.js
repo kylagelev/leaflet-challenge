@@ -26,19 +26,32 @@ d3.json(url).then(function(response){
     depths = []
     coordinates = []
 
+  // function markerSize(magnitudes) {
+  //   return magnitude / 40;
+  // }
 
     for (var i=0; i<narrowed_response.length; i++){
 
       if (narrowed_response){
-        coordinates.push([narrowed_response[i].geometry.coordinates[0], narrowed_response[i].geometry.coordinates[1]]);
+        coordinates.push([narrowed_response[i].geometry.coordinates[1], narrowed_response[i].geometry.coordinates[0]]);
         depths.push(narrowed_response[i].geometry.coordinates[2])
         magnitudes.push(narrowed_response[i].properties.mag)
     }
     }
 
+    //checking lengths of lists
     console.log(coordinates.length)
     console.log(depths.length)
-    console.log(magnitudes.length)
+    console.log(magnitudes)
+
+    for (var i = 0; i < coordinates.length; i++) {
+      // console.log(coordinates[i])
+      circle = L.circleMarker(coordinates[i], {
+        fillOpacity: 1,
+        color: "purple",
+        fillColor: "purple",
+        radius: 5*magnitudes[i]
+      }).bindPopup("<h1>" + "</h1> <hr> <h3>Population: " + "</h3>").addTo(myMap);
 
 
 
@@ -47,4 +60,5 @@ d3.json(url).then(function(response){
 // function markerSize(population) {
 //   return population / 40;
 // }
+}
 })
