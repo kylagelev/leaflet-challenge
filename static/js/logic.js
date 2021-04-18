@@ -17,5 +17,34 @@ var myMap = L.map("map", {
 url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson'
 
 d3.json(url).then(function(response){
-    console.log(response)
+    console.log(response.features[0])
+    console.log(response.features[0].geometry)
+
+    narrowed_response = response.features
+    
+    magnitudes = []
+    depths = []
+    coordinates = []
+
+
+    for (var i=0; i<narrowed_response.length; i++){
+
+      if (narrowed_response){
+        coordinates.push([narrowed_response[i].geometry.coordinates[0], narrowed_response[i].geometry.coordinates[1]]);
+        depths.push(narrowed_response[i].geometry.coordinates[2])
+        magnitudes.push(narrowed_response[i].properties.mag)
+    }
+    }
+
+    console.log(coordinates.length)
+    console.log(depths.length)
+    console.log(magnitudes.length)
+
+
+
+
+    // Define a markerSize function that will give each city a different radius based on its population
+// function markerSize(population) {
+//   return population / 40;
+// }
 })
