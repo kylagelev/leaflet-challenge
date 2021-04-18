@@ -4,7 +4,7 @@ var myMap = L.map("map", {
   });
   
   // Adding tile layer
-  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  satellite = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxZoom: 18,
@@ -98,35 +98,38 @@ d3.json(url).then(function(response){
         radius: 7*magnitudes[i]
       }).bindPopup("<h2>" + place[i]+ "</h2> <hr> <h3>Magnitude: " + magnitudes[i] + "</h3>" + "<hr> <h3>Depth: " + depths[i]+"</h3>").addTo(myMap);
   
-      // Set up the legend
-  // var legend = L.control({ position: "bottomright" });
-  // legend.onAdd = function() {
-  //   var div = L.DomUtil.create("div", "info legend");
-  //   var depths = [-10, 10, 30, 50, 70, 90]
-  //   var colors = ['green', 'lime', 'yellow', 'gold', 'orange', 'red'];
-  //   var labels = [];
+      //adding light layer
+      var light = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+        maxZoom: 18,
+        id: "light-v10",
+        accessToken: API_KEY
+      });
 
-  //   // Add min & max
-  //   var legendInfo = "<h1>Depth</h1>" +
-  //     "<div class=\"labels\">" +
-  //       "<div class=\"min\">" + -10 + "</div>" +
-  //       "<div class=\"max\">" + 90 + "</div>" +
-  //     "</div>";
+      //adding dark layer
+      var dark = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+        maxZoom: 18,
+        id: "dark-v10",
+        accessToken: API_KEY
+      });
 
-  //   div.innerHTML = legendInfo;
+      var baseMaps = {
+        Light: light,
+        Dark: dark,
+        Satellite: satellite
+      };
 
-  //   limits.forEach(function(limit, index) {
-  //     labels.push("<li style=\"background-color: " +  + "\"></li>");
-  //   });
+      var overlayMaps = {
+        Earthquakes: circle
+      }
 
-  //   div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-  //   return div;
-  // };
-  // legend.addTo(myMap)
 
-  var legend = L.control({position: 'bottomright'});
 
-legend.onAdd = function (map) {
+    //setting up legend
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
     depths = [-10, 10, 30, 50, 70, 90],
@@ -141,7 +144,10 @@ legend.onAdd = function (map) {
 
     return div;
     };
+  }
+  L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
-}
+
 legend.addTo(myMap);
-})
+});
+
