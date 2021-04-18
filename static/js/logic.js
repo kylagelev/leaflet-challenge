@@ -46,40 +46,102 @@ d3.json(url).then(function(response){
     // console.log(magnitudes)
     // console.log(place)
 
-  
+  function getColor(depth){
+    if (depth < 10) {
+      color = 'green'
+    }
+    else if (depth < 30){
+      color = 'lime'
+    }
+    else if (depth < 50){
+      color = 'yellow'
+    }
+    else if (depth < 70){
+      color = 'gold'
+    }
+    else if (depth < 90){
+      color = 'orange'
+    }
+    else {
+      color = 'red'
+    }
+
+    return color
+  }
 
     for (var i = 0; i < coordinates.length; i++) {
 
-      if (depths[i] < 10) {
-        color = 'green'
-      }
-      else if (depths[i] < 30){
-        color = 'lime'
-      }
-      else if (depths[i] < 50){
-        color = 'yellow'
-      }
-      else if (depths[i] < 70){
-        color = 'gold'
-      }
-      else if (depths[i] < 90){
-        color = 'orange'
-      }
-      else {
-        color = 'red'
-      }
-
-
-
+      // if (depths[i] < 10) {
+      //   color = 'green'
+      // }
+      // else if (depths[i] < 30){
+      //   color = 'lime'
+      // }
+      // else if (depths[i] < 50){
+      //   color = 'yellow'
+      // }
+      // else if (depths[i] < 70){
+      //   color = 'gold'
+      // }
+      // else if (depths[i] < 90){
+      //   color = 'orange'
+      // }
+      // else {
+      //   color = 'red'
+      // }
 
       // console.log(coordinates[i])
       circle = L.circleMarker(coordinates[i], {
         fillOpacity: 1,
         color: 'black',
-        fillColor: color,
-        radius: 5*magnitudes[i]
+        fillColor: getColor(depths[i]),
+        radius: 7*magnitudes[i]
       }).bindPopup("<h2>" + place[i]+ "</h2> <hr> <h3>Magnitude: " + magnitudes[i] + "</h3>" + "<hr> <h3>Depth: " + depths[i]+"</h3>").addTo(myMap);
+  
+      // Set up the legend
+  // var legend = L.control({ position: "bottomright" });
+  // legend.onAdd = function() {
+  //   var div = L.DomUtil.create("div", "info legend");
+  //   var depths = [-10, 10, 30, 50, 70, 90]
+  //   var colors = ['green', 'lime', 'yellow', 'gold', 'orange', 'red'];
+  //   var labels = [];
 
+  //   // Add min & max
+  //   var legendInfo = "<h1>Depth</h1>" +
+  //     "<div class=\"labels\">" +
+  //       "<div class=\"min\">" + -10 + "</div>" +
+  //       "<div class=\"max\">" + 90 + "</div>" +
+  //     "</div>";
+
+  //   div.innerHTML = legendInfo;
+
+  //   limits.forEach(function(limit, index) {
+  //     labels.push("<li style=\"background-color: " +  + "\"></li>");
+  //   });
+
+  //   div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+  //   return div;
+  // };
+  // legend.addTo(myMap)
+
+  var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+    depths = [-10, 10, 30, 50, 70, 90],
+    labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < depths.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(depths[i] + 1) + '"></i> ' +
+            depths[i] + (depths[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+    };
 
 }
+legend.addTo(myMap);
 })
