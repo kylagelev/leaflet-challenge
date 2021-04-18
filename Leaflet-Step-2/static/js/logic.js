@@ -69,7 +69,7 @@ d3.json(url).then(function(response){
     return color
   }
 
-  plates_url = '../data/plates.json'
+  plates_url = './data/plates.json'
   d3.json(plates_url).then(function(plates){
     console.log(plates)
 
