@@ -71,25 +71,6 @@ d3.json(url).then(function(response){
 
     for (var i = 0; i < coordinates.length; i++) {
 
-      // if (depths[i] < 10) {
-      //   color = 'green'
-      // }
-      // else if (depths[i] < 30){
-      //   color = 'lime'
-      // }
-      // else if (depths[i] < 50){
-      //   color = 'yellow'
-      // }
-      // else if (depths[i] < 70){
-      //   color = 'gold'
-      // }
-      // else if (depths[i] < 90){
-      //   color = 'orange'
-      // }
-      // else {
-      //   color = 'red'
-      // }
-
       // console.log(coordinates[i])
       circle = L.circleMarker(coordinates[i], {
         fillOpacity: 1,
@@ -120,9 +101,10 @@ d3.json(url).then(function(response){
         Satellite: satellite
       };
 
-      // var overlayMaps = {
-      //   Earthquakes: circle
-      // }
+      var overlayMaps = {
+        Earthquakes: circle,
+        // Faults:
+      }
 
 
 
