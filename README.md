@@ -8,4 +8,4 @@ Attempt was made at Leaflet-Step-2, but not completed. Please reference Leaflet-
 
 Visual of map is below:
 
-![Image of Earthquake Map]()
+![Image of Earthquake Map](image/map.png)
