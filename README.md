@@ -4,6 +4,8 @@ Earthquake Visualization using Leaflet. Includes 3 layers, including satellite, 
 
 Circles indicate location of earthquake (specific latitude and longitude), color is indicative of depth, and radius is the magnitude of the earthquake multiplied by 7 (for better visualization). 
 
-Attempt was made for Leaflet-Step-2, but not completed. Please reference Leaflet-Step-1 until further notice.
+Attempt was made at Leaflet-Step-2, but not completed. Please reference Leaflet-Step-1 until further notice.
 
-Visual of map is below.
+Visual of map is below:
+
+![Image of Earthquake Map]()
